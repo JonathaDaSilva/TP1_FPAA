@@ -20,11 +20,11 @@ public class Main {
         grafoBase.addAresta(2, 3, 4);
 
         long inicioNaive = System.nanoTime();
-        List<Aresta> mst00 = executarKruskalDeVarianteParaGrafo(new NaiveDSU(grafoBase.getNumVertices()), grafoBase);
+        List<Aresta> mst00 = executarKruskalDeVarianteParaGrafo(NaiveDSU.class, grafoBase);
         long fimNaive = System.nanoTime();
 
         long inicioUbR = System.nanoTime();
-        List<Aresta> mst01 = executarKruskalDeVarianteParaGrafo(new UnionByRank(grafoBase.getNumVertices()), grafoBase);
+        List<Aresta> mst01 = executarKruskalDeVarianteParaGrafo(UnionByRank.class, grafoBase);
         long FimUbR = System.nanoTime();
 
         System.out.println("Naive: " + (fimNaive - inicioNaive) + " ns"
