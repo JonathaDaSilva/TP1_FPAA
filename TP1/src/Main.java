@@ -13,8 +13,9 @@ import static Kruskal.Kruskal.executarKruskalDeVarianteParaGrafo;
 
 public class Main {
     public static void main(String[] args) {
-        Grafo grafoBase = GeradorGrafo.gerarAleatorio(10000, 50000);
-        Grafo grafoPiorCaso = GeradorGrafo.gerarPiorCaso(10000);
+        int numVertices = 10000;
+        Grafo grafoBase = GeradorGrafo.gerarAleatorio(numVertices, 50000);
+        Grafo grafoPiorCaso = GeradorGrafo.gerarPiorCaso(numVertices);
 
         //Tb retirei a ordenação de dentro do Kruskal pq senão o naive ficaria prejudicado nos testes 
         Collections.sort(grafoBase.getArestas());
@@ -28,21 +29,21 @@ public class Main {
 
             //Adicionei um aquecimento aqui para evitar "cold start" nas medições hehe
             for (int w = 0; w < 3; w++) {
-                executarKruskalDeVarianteParaGrafo(new NaiveDSU(grafo.getNumVertices()), grafo);
-                executarKruskalDeVarianteParaGrafo(new UnionByRank(grafo.getNumVertices()), grafo);
-                executarKruskalDeVarianteParaGrafo(new FullTarjan(grafo.getNumVertices()), grafo);
+                executarKruskalDeVarianteParaGrafo(NaiveDSU.class, grafo);
+                executarKruskalDeVarianteParaGrafo(UnionByRank.class, grafo);
+                executarKruskalDeVarianteParaGrafo(FullTarjan.class, grafo);
             }
 
             long inicioNaive = System.nanoTime();
-            List<Aresta> mst00 = executarKruskalDeVarianteParaGrafo(new NaiveDSU(grafo.getNumVertices()), grafo);
+            List<Aresta> mst00 = executarKruskalDeVarianteParaGrafo(NaiveDSU.class, grafo);
             long fimNaive = System.nanoTime();
 
             long inicioUbR = System.nanoTime();
-            List<Aresta> mst01 = executarKruskalDeVarianteParaGrafo(new UnionByRank(grafo.getNumVertices()), grafo);
+            List<Aresta> mst01 = executarKruskalDeVarianteParaGrafo(UnionByRank.class, grafo);
             long FimUbR = System.nanoTime();
 
             long inicioFullTarjan = System.nanoTime();
-            List<Aresta> mst02 = executarKruskalDeVarianteParaGrafo(new FullTarjan(grafo.getNumVertices()), grafo);
+            List<Aresta> mst02 = executarKruskalDeVarianteParaGrafo(FullTarjan.class, grafo);
             long fimFullTarjan = System.nanoTime();
 
             System.out.println("Naive: " + (fimNaive - inicioNaive) + " ns"
