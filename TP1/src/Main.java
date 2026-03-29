@@ -1,22 +1,33 @@
+import Estruturas.NaiveDSU;
+import Estruturas.UnionByRank;
 import Kruskal.Aresta;
+import Kruskal.Grafo;
+
 import java.util.ArrayList;
 import java.util.List;
-import static Kruskal.Kruskal.executarKruskalNaive;
+
+import static Kruskal.Kruskal.executarKruskalDeVarianteParaGrafo;
 
 public class Main {
     public static void main(String[] args) {
+        Grafo grafoBase = new Grafo(4);
         int V = 4;
-        List<Aresta> grafo = new ArrayList<>();
-        grafo.add(new Aresta(0, 1, 10));
-        grafo.add(new Aresta(0, 2, 6));
-        grafo.add(new Aresta(0, 3, 5));
-        grafo.add(new Aresta(1, 3, 15));
-        grafo.add(new Aresta(2, 3, 4));
+        List<Aresta> arestas = new ArrayList<>();
+        grafoBase.addAresta(0, 1, 10);
+        grafoBase.addAresta(0, 2, 6);
+        grafoBase.addAresta(0, 3, 5);
+        grafoBase.addAresta(1, 3, 15);
+        grafoBase.addAresta(2, 3, 4);
 
-        long inicio = System.nanoTime();
-        List<Aresta> mst = executarKruskalNaive(V, grafo);
-        long fim = System.nanoTime();
+        long inicioNaive = System.nanoTime();
+        List<Aresta> mst00 = executarKruskalDeVarianteParaGrafo(new NaiveDSU(grafoBase.getNumVertices()), grafoBase);
+        long fimNaive = System.nanoTime();
 
-        System.out.println("Naive: " + (fim - inicio) + " ns");
+        long inicioUbR = System.nanoTime();
+        List<Aresta> mst01 = executarKruskalDeVarianteParaGrafo(new UnionByRank(grafoBase.getNumVertices()), grafoBase);
+        long FimUbR = System.nanoTime();
+
+        System.out.println("Naive: " + (fimNaive - inicioNaive) + " ns"
+        + "\nUnionByRank: " + (FimUbR - inicioUbR) + " ns");
     }
 }

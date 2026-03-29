@@ -1,24 +1,28 @@
 package Kruskal;
 
-import estruturas.NaiveDSU;
+import Estruturas.NaiveDSU;
+import Estruturas.VarianteBase;
+
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Kruskal {
-    public static List<Aresta> executarKruskalNaive(int numVertices, List<Aresta> arestas) {
+
+
+    public static List<Aresta> executarKruskalDeVarianteParaGrafo(VarianteBase variante, Grafo grafo) {
         List<Aresta> mst = new ArrayList<>();
-        NaiveDSU dsu = new NaiveDSU(numVertices);
 
-        Collections.sort(arestas);
+        Collections.sort(grafo.getArestas());
 
-        for (Aresta aresta : arestas) {
-            int rootOrigem = dsu.find(aresta.origem);
-            int rootDestino = dsu.find(aresta.destino);
+        for (Aresta aresta : grafo.getArestas()) {
+            int rootOrigem = variante.find(aresta.origem);
+            int rootDestino = variante.find(aresta.destino);
 
             if (rootOrigem != rootDestino) {
                 mst.add(aresta);
-                dsu.union(rootOrigem, rootDestino);
+                variante.union(aresta.origem, aresta.destino);
             }
         }
         return mst;
