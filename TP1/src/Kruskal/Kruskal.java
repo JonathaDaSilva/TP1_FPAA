@@ -5,13 +5,7 @@ import Estruturas.VarianteBase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Kruskal {
-
-    public static VarianteBase executarKruskalDeVarianteParaGrafo(Class<? extends VarianteBase> clazz, Grafo grafo) {
-        VarianteBase variante;
-        try {
-            variante = clazz.getDeclaredConstructor(int.class).newInstance(grafo.getNumVertices());
-        } catch (Exception e) {
+ch (Exception e) {
             System.out.println("Incapaz de instanciar variante de DSU do tipo:" + clazz.getName());
             return null;
         }
@@ -25,7 +19,20 @@ public class Kruskal {
                 mstCount++;
             }
         }
-
         return variante;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Constructor<? extends VarianteBase> getConstructor(Class<? extends VarianteBase> clazz) {
+        return constructorCache.computeIfAbsent(clazz, c -> {
+            try {
+                Constructor<? extends VarianteBase> constructor =
+                        (Constructor<? extends VarianteBase>) c.getDeclaredConstructor(int.class);
+                constructor.setAccessible(true);
+                return constructor;
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException("Construtor não encontrado para: " + c.getName(), e);
+            }
+        });
     }
 }
