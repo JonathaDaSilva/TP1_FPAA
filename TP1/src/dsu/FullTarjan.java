@@ -19,7 +19,6 @@ public class FullTarjan extends Dsu {
         if (this.pai[i] == i) {
             return i;
         }
-        operacoes++;
         return this.pai[i] = find(this.pai[i]);
     }
 
