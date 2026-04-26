@@ -37,9 +37,6 @@ public class Benchmark {
                 Grafo grafoAleatorio = GeradorGrafo.gerarAleatorio(v, numArestas);
                 Grafo grafoPiorCaso  = GeradorGrafo.gerarPiorCaso(v);
 
-                Collections.sort(grafoAleatorio.getArestas());
-                Collections.sort(grafoPiorCaso.getArestas());
-
                 System.out.printf("=== n = %,d vertices ===%n", v);
 
                 medir(writer, v, "aleatorio", grafoAleatorio);
